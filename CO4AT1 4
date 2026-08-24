@@ -1,0 +1,71 @@
+import java.applet.Applet;
+import java.awt.*;
+import java.awt.event.*;
+
+public class SmartFactory extends Applet implements ActionListener {
+
+    CardLayout card = new CardLayout();
+    Panel cards = new Panel(card);
+
+    Label status = new Label("NORMAL MODE");
+    Button normal = new Button("Normal");
+    Button warning = new Button("Warning");
+    Button emergency = new Button("Emergency");
+    Button start = new Button("Start Machine");
+    Button stop = new Button("Stop Machine");
+
+    public void init() {
+        setLayout(new BorderLayout());
+
+        // Top controls
+        Panel top = new Panel(new GridLayout(1, 3));
+        top.add(normal);
+        top.add(warning);
+        top.add(emergency);
+        add(top, BorderLayout.NORTH);
+
+        // Monitoring sections
+        Panel monitor = new Panel(new GridLayout(4, 1));
+        monitor.add(new Label("Temperature: 75 C"));
+        monitor.add(new Label("Pressure: 80 PSI"));
+        monitor.add(new Label("Machine: RUNNING"));
+        monitor.add(new Label("Production: 90%"));
+
+        cards.add(monitor, "monitor");
+        add(cards, BorderLayout.CENTER);
+
+        // Machine controls
+        Panel bottom = new Panel();
+        bottom.add(start);
+        bottom.add(stop);
+        bottom.add(status);
+        add(bottom, BorderLayout.SOUTH);
+
+        normal.addActionListener(this);
+        warning.addActionListener(this);
+        emergency.addActionListener(this);
+        start.addActionListener(this);
+        stop.addActionListener(this);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == normal) {
+            status.setText("NORMAL MODE");
+            start.setEnabled(true);
+        }
+        else if (e.getSource() == warning) {
+            status.setText("WARNING! Check Sensors");
+            start.setEnabled(true);
+        }
+        else if (e.getSource() == emergency) {
+            status.setText("EMERGENCY! Machine Stopped");
+            start.setEnabled(false);   // Prevent conflict
+        }
+        else if (e.getSource() == start) {
+            status.setText("Machine Started");
+        }
+        else if (e.getSource() == stop) {
+            status.setText("Machine Stopped");
+        }
+    }
+}
