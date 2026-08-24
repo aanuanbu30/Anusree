@@ -1,0 +1,47 @@
+import java.applet.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class Plant extends Applet implements ActionListener {
+
+    Button start, stop, pause, reset;
+    Label status;
+
+    public void init() {
+        setLayout(new FlowLayout());
+
+        status = new Label("Machine Stopped");
+
+        start = new Button("Start");
+        stop = new Button("Stop");
+        pause = new Button("Pause");
+        reset = new Button("Reset");
+
+        add(status);
+        add(start);
+        add(stop);
+        add(pause);
+        add(reset);
+
+        start.addActionListener(this);
+        stop.addActionListener(this);
+        pause.addActionListener(this);
+        reset.addActionListener(this);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+
+        if (e.getSource() == start) {
+            status.setText("Machine Running");
+        }
+        else if (e.getSource() == stop) {
+            status.setText("Machine Stopped");
+        }
+        else if (e.getSource() == pause) {
+            status.setText("Machine Paused");
+        }
+        else if (e.getSource() == reset) {
+            status.setText("Machine Reset");
+        }
+    }
+}
