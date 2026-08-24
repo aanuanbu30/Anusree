@@ -1,0 +1,69 @@
+import java.applet.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class Hospital extends Applet implements ActionListener {
+
+    TextField name;
+    Choice emergency, doctor;
+    Checkbox priority;
+    Button register;
+    TextArea result;
+
+    public void init() {
+
+        setLayout(new FlowLayout());
+
+        add(new Label("Patient Name:"));
+        name = new TextField(15);
+        add(name);
+
+        add(new Label("Emergency:"));
+        emergency = new Choice();
+        emergency.add("Normal");
+        emergency.add("Serious");
+        emergency.add("Critical");
+        add(emergency);
+
+        add(new Label("Doctor:"));
+        doctor = new Choice();
+        doctor.add("Dr. Smith");
+        doctor.add("Dr. John");
+        doctor.add("Dr. Kumar");
+        add(doctor);
+
+        priority = new Checkbox("Treatment Priority");
+        add(priority);
+
+        register = new Button("Register");
+        add(register);
+
+        result = new TextArea(5, 35);
+        add(result);
+
+        register.addActionListener(this);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+
+        String n = name.getText();
+
+        if (n.equals("")) {
+            result.setText("Enter patient name!");
+            return;
+        }
+
+        if (emergency.getSelectedItem().equals("Critical")) {
+            priority.setState(true);
+            result.setText("ALERT! Critical Patient\n" +
+                    "Patient: " + n +
+                    "\nDoctor: " + doctor.getSelectedItem());
+        }
+        else {
+            result.setText("Patient Registered\n" +
+                    "Patient: " + n +
+                    "\nEmergency: " + emergency.getSelectedItem() +
+                    "\nDoctor: " + doctor.getSelectedItem());
+        }
+    }
+}
