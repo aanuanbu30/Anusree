@@ -1,0 +1,84 @@
+import java.applet.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class Banking extends Applet implements ActionListener {
+
+    TextField amount;
+    Button deposit, withdraw, transfer, balance;
+    Label status;
+
+    double bal = 1000;
+
+    public void init() {
+
+        setLayout(new BorderLayout());
+
+        Panel top = new Panel();
+        top.add(new Label("Amount:"));
+
+        amount = new TextField(10);
+        top.add(amount);
+
+        add(top, BorderLayout.NORTH);
+
+        Panel buttons = new Panel(new GridLayout(2, 2));
+
+        deposit = new Button("Deposit");
+        withdraw = new Button("Withdraw");
+        transfer = new Button("Transfer");
+        balance = new Button("Balance");
+
+        buttons.add(deposit);
+        buttons.add(withdraw);
+        buttons.add(transfer);
+        buttons.add(balance);
+
+        add(buttons, BorderLayout.CENTER);
+
+        status = new Label("Balance: " + bal);
+        add(status, BorderLayout.SOUTH);
+
+        deposit.addActionListener(this);
+        withdraw.addActionListener(this);
+        transfer.addActionListener(this);
+        balance.addActionListener(this);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+
+        try {
+            double a = Double.parseDouble(amount.getText());
+
+            if (a <= 0) {
+                status.setText("Invalid amount");
+            }
+            else if (e.getSource() == deposit) {
+                bal += a;
+                status.setText("Deposited. Balance: " + bal);
+            }
+            else if (e.getSource() == withdraw) {
+                if (a > bal)
+                    status.setText("Insufficient balance");
+                else {
+                    bal -= a;
+                    status.setText("Withdrawn. Balance: " + bal);
+                }
+            }
+            else if (e.getSource() == transfer) {
+                if (a > bal)
+                    status.setText("Insufficient balance");
+                else {
+                    bal -= a;
+                    status.setText("Transferred. Balance: " + bal);
+                }
+            }
+            else if (e.getSource() == balance) {
+                status.setText("Balance: " + bal);
+            }
+
+        } catch (Exception ex) {
+            status.setText("Enter a valid amount");
+        }
+    }
+}
